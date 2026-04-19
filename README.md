@@ -185,8 +185,3 @@ database/
 * Pagination instead of load more for cleaner UX
 
 ---
-
-https://github.com/PronayBormon
-
-```
-```
