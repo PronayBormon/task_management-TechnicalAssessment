@@ -40,9 +40,10 @@
                 <!-- Description -->
                 <div class="mb-4">
                     <label class="form-label fw-semibold">Description</label>
-
                     <textarea name="description" rows="4" class="form-control summernote @error('description') is-invalid @enderror"
                         placeholder="Write task details...">{{ old('description', $task->description) }}</textarea>
+
+                        
 
                     @error('description')
                         <div class="invalid-feedback">{{ $message }}</div>

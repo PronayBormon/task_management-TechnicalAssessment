@@ -1,32 +1,23 @@
-<link rel="preload" href="/backend/css/adminlte.css" as="style" />
+<link rel="preload" href="../css/adminlte.css" as="style" />
 <!--end::Accessibility Features-->
 
+<!--begin::Fonts-->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
     integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous" media="print"
     onload="this.media = 'all'" />
+<!--end::Fonts-->
 
+<!--begin::Third Party Plugin(OverlayScrollbars)-->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css"
     crossorigin="anonymous" />
+<!--end::Third Party Plugin(OverlayScrollbars)-->
 
+<!--begin::Third Party Plugin(Bootstrap Icons)-->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
     crossorigin="anonymous" />
+<!--end::Third Party Plugin(Bootstrap Icons)-->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-<!-- include summernote css/js -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
-
+<!--begin::Required Plugin(AdminLTE)-->
 <link rel="stylesheet" href="/backend/css/adminlte.css" />
 
-<style>
-    #taskTable_paginate,
-    #taskTable_filter {
-        display: flex;
-        justify-content: end;
-    }
-
-    .toast-success {
-        background-color: green !important;
-    }
-</style>
-
-@stack('script')
+@stack('style')

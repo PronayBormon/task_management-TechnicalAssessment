@@ -3,319 +3,338 @@
 @section('title', 'Dashboard')
 
 @push('style')
+    <style>
+        body {
+            background: #f4f6f9;
+        }
 
-<style>
-    body{
-        background:#f4f7fb;
-    }
+        .dashboard-card,
+        .table-card {
+            border: 0;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .05);
+        }
 
-    .dashboard-card{
-        border:none;
-        border-radius:18px;
-        box-shadow:0 8px 25px rgba(0,0,0,.04);
-        transition:.3s;
-        height:100%;
-    }
+        .small-box {
+            border-radius: 18px !important;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .04);
+        }
 
-    .dashboard-card:hover{
-        transform:translateY(-3px);
-    }
+        .small-box .inner {
+            padding: 20px;
+        }
 
-    .stat-icon{
-        width:54px;
-        height:54px;
-        border-radius:16px;
-        background:#eef4ff;
-        color:#3b82f6;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-size:22px;
-    }
+        .small-box h3 {
+            font-size: 34px;
+            font-weight: 700;
+        }
 
-    .metric-number{
-        font-size:42px;
-        font-weight:700;
-        color:#0f172a;
-        margin-bottom:0;
-    }
+        .small-box p {
+            margin-bottom: 0;
+            font-size: 15px;
+        }
 
-    .metric-label{
-        font-size:14px;
-        color:#94a3b8;
-    }
+        .small-box-icon {
+            font-size: 60px !important;
+            top: 15px !important;
+            right: 15px !important;
+            opacity: .18;
+        }
 
-    .chart-card{
-        border:none;
-        border-radius:20px;
-        box-shadow:0 8px 25px rgba(0,0,0,.04);
-    }
+        .recent-badge {
+            font-size: 12px;
+            padding: 6px 12px;
+            border-radius: 30px;
+        }
 
-    .status-row{
-        background:#f8fafc;
-        border-radius:14px;
-        padding:16px;
-        margin-bottom:14px;
-    }
+        .card-title-main {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 0;
+        }
 
-    .status-dot{
-        width:14px;
-        height:14px;
-        border-radius:50%;
-        display:inline-block;
-        margin-right:8px;
-    }
+        .table> :not(caption)>*>* {
+            padding: 14px;
+        }
 
-    .progress{
-        height:8px;
-        border-radius:30px;
-        background:#e5e7eb;
-    }
-
-    .progress-bar{
-        border-radius:30px;
-    }
-
-    .title-main{
-        font-weight:700;
-        color:#0f172a;
-    }
-</style>
+        .empty-chart {
+            min-height: 350px;
+        }
+    </style>
 @endpush
+
 
 @section('content')
 
-<div class="container-fluid">
 
+    {{-- TOP CARDS --}}
     <div class="row g-4 mb-4">
 
         <div class="col-lg-3 col-md-6">
-            <div class="card dashboard-card p-4">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <h5 class="title-main">Team Members</h5>
-                        <h2 class="metric-number">12</h2>
-                        <div class="metric-label">2 joined this month</div>
-                    </div>
-                    <div class="stat-icon">
-                        <i class="bi bi-people"></i>
-                    </div>
+            <div class="small-box text-bg-primary">
+                <div class="inner">
+                    <h3>{{ $totalTasks }}</h3>
+                    <p>Total Tasks</p>
                 </div>
+                <i class="bi bi-list-check small-box-icon"></i>
             </div>
         </div>
 
         <div class="col-lg-3 col-md-6">
-            <div class="card dashboard-card p-4">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <h5 class="title-main">Active Tasks</h5>
-                        <h2 class="metric-number">24</h2>
-                        <div class="metric-label">8 due this week</div>
-                    </div>
-                    <div class="stat-icon">
-                        <i class="bi bi-check2-square"></i>
-                    </div>
+            <div class="small-box text-bg-warning">
+                <div class="inner">
+                    <h3>{{ $pendingTasks }}</h3>
+                    <p>Pending Tasks</p>
                 </div>
+                <i class="bi bi-clock-history small-box-icon"></i>
             </div>
         </div>
 
         <div class="col-lg-3 col-md-6">
-            <div class="card dashboard-card p-4">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <h5 class="title-main">Team Activity</h5>
-                        <h2 class="metric-number">87%</h2>
-                        <div class="metric-label">+12% from last week</div>
-                    </div>
-                    <div class="stat-icon">
-                        <i class="bi bi-activity"></i>
-                    </div>
+            <div class="small-box text-bg-info">
+                <div class="inner">
+                    <h3>{{ $progressTasks }}</h3>
+                    <p>In Progress</p>
                 </div>
+                <i class="bi bi-arrow-repeat small-box-icon"></i>
             </div>
         </div>
 
         <div class="col-lg-3 col-md-6">
-            <div class="card dashboard-card p-4">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <h5 class="title-main">Unread Messages</h5>
-                        <h2 class="metric-number">9</h2>
-                        <div class="metric-label">3 require attention</div>
-                    </div>
-                    <div class="stat-icon">
-                        <i class="bi bi-chat-square"></i>
-                    </div>
+            <div class="small-box text-bg-success">
+                <div class="inner">
+                    <h3>{{ $completedTasks }}</h3>
+                    <p>Completed Tasks</p>
                 </div>
+                <i class="bi bi-check-circle small-box-icon"></i>
             </div>
         </div>
 
     </div>
 
 
-    <div class="row g-4">
 
-        <div class="col-lg-6">
-            <div class="card chart-card p-4 h-100">
-                <h3 class="title-main mb-4">Project Analytics</h3>
+    {{-- CHARTS --}}
+    <div class="row g-4 mb-4">
 
-                <div class="row align-items-center">
-                    <div class="col-md-5">
-                        <div id="donutChart"></div>
-                    </div>
-
-                    <div class="col-md-7">
-
-                        <h4 class="fw-bold mb-4">Status Breakdown</h4>
-
-                        <div class="status-row">
-                            <div class="d-flex justify-content-between mb-2">
-                                <span><span class="status-dot bg-success"></span>Completed</span>
-                                <strong>8</strong>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar bg-success" style="width:60%"></div>
-                            </div>
-                        </div>
-
-                        <div class="status-row">
-                            <div class="d-flex justify-content-between mb-2">
-                                <span><span class="status-dot bg-primary"></span>In Progress</span>
-                                <strong>12</strong>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar bg-primary" style="width:78%"></div>
-                            </div>
-                        </div>
-
-                        <div class="status-row">
-                            <div class="d-flex justify-content-between mb-2">
-                                <span><span class="status-dot bg-warning"></span>Planning</span>
-                                <strong>5</strong>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar bg-warning" style="width:35%"></div>
-                            </div>
-                        </div>
-
-                        <div class="status-row mb-0">
-                            <div class="d-flex justify-content-between mb-2">
-                                <span><span class="status-dot bg-danger"></span>On Hold</span>
-                                <strong>3</strong>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar bg-danger" style="width:20%"></div>
-                            </div>
-                        </div>
-
-                    </div>
+        <div class="col-lg-7">
+            <div class="card dashboard-card p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="card-title-main">Monthly Task Analytics</h5>
                 </div>
 
+                <div id="trendChart" class="empty-chart"></div>
             </div>
         </div>
 
 
-        <div class="col-lg-6">
-            <div class="card chart-card p-4 h-100">
-                <h3 class="title-main mb-4">Trend Analysis</h3>
-                <div id="trendChart"></div>
+        <div class="col-lg-5">
+            <div class="card dashboard-card p-4 h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="card-title-main">Task Status Overview</h5>
+                </div>
+
+                <div id="taskStatusChart" class="empty-chart"></div>
             </div>
         </div>
 
     </div>
 
-</div>
+
+
+    {{-- RECENT TASKS --}}
+    <div class="row">
+        <div class="col-12">
+
+            <div class="card table-card p-4">
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="card-title-main">Recent Tasks</h5>
+
+                    <a href="{{ route('admin.task.index') }}" class="btn btn-primary btn-sm px-3">
+                        View All
+                    </a>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-light">
+                            <tr>
+                                <th width="60">#</th>
+                                <th>Task Name</th>
+                                <th width="180">Status</th>
+                                <th width="180">Created</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @forelse($recentTasks as $key => $task)
+                                <tr>
+                                    <td>{{ $key + 1 }}</td>
+
+                                    <td>
+                                        {{ $task->title ?? $task->name }}
+                                    </td>
+
+                                    <td>
+
+                                        @if ($task->status == 'pending')
+                                            <span class="badge bg-warning recent-badge">Pending</span>
+                                        @elseif($task->status == 'in_progress')
+                                            <span class="badge bg-info recent-badge">In Progress</span>
+                                        @elseif($task->status == 'completed')
+                                            <span class="badge bg-success recent-badge">Completed</span>
+                                        @else
+                                            <span class="badge bg-secondary recent-badge">
+                                                {{ ucfirst($task->status) }}
+                                            </span>
+                                        @endif
+
+                                    </td>
+
+                                    <td>
+                                        {{ $task->created_at->format('d M Y') }}
+                                    </td>
+                                </tr>
+
+                            @empty
+
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted py-4">
+                                        No Tasks Found
+                                    </td>
+                                </tr>
+                            @endforelse
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
 
 @endsection
 
+
+
 @push('script')
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
+    <script>
+        window.addEventListener('load', function() {
 
-    if(document.querySelector("#donutChart")){
+            // Prevent duplicate charts
+            if (window.taskStatusChartObj) {
+                window.taskStatusChartObj.destroy();
+            }
 
-        let donutChart = new ApexCharts(document.querySelector("#donutChart"), {
-            chart: {
-                type: 'donut',
-                height: 320
-            },
-            series: [12,8,5,3],
-            labels: ['In Progress','Completed','Planning','On Hold'],
-            colors: ['#4f8ef7','#2ecc71','#f39c12','#ef476f'],
-            legend:{
-                show:false
-            },
-            dataLabels:{
-                enabled:false
-            },
-            plotOptions:{
-                pie:{
-                    donut:{
-                        size:'70%',
-                        labels:{
-                            show:true,
-                            total:{
-                                show:true,
-                                label:'Total Projects',
-                                formatter:function(){
-                                    return 28;
-                                }
+            if (window.trendChartObj) {
+                window.trendChartObj.destroy();
+            }
+
+
+            // DONUT CHART
+            const taskStatusElement = document.querySelector("#taskStatusChart");
+
+            if (taskStatusElement) {
+
+                window.taskStatusChartObj = new ApexCharts(taskStatusElement, {
+
+                    chart: {
+                        type: 'donut',
+                        height: 350
+                    },
+
+                    series: @json($chartStatus),
+
+                    labels: ['Pending', 'In Progress', 'Completed'],
+
+                    colors: ['#f59e0b', '#0dcaf0', '#198754'],
+
+                    legend: {
+                        position: 'bottom'
+                    },
+
+                    dataLabels: {
+                        enabled: true
+                    },
+
+                    plotOptions: {
+                        pie: {
+                            donut: {
+                                size: '68%'
                             }
                         }
                     }
-                }
+
+                });
+
+                window.taskStatusChartObj.render();
             }
-        });
-
-        donutChart.render();
-    }
 
 
-    if(document.querySelector("#trendChart")){
 
-        let trendChart = new ApexCharts(document.querySelector("#trendChart"), {
-            chart:{
-                type:'line',
-                height:360,
-                toolbar:{show:false}
-            },
-            stroke:{
-                curve:'smooth',
-                width:4
-            },
-            markers:{
-                size:4
-            },
-            series:[
-                {
-                    name:'Tasks',
-                    data:[45,50,47,58,55,63,69,74,80,87,94,101]
-                },
-                {
-                    name:'Completed',
-                    data:[38,42,40,43,44,46,49,52,54,57,60,63]
-                },
-                {
-                    name:'Planning',
-                    data:[12,15,13,22,18,24,28,31,36,40,44,48]
-                }
-            ],
-            colors:['#7c6ee6','#5fb98c','#f0b03d'],
-            xaxis:{
-                categories:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-            },
-            grid:{
-                borderColor:'#edf2f7'
-            },
-            legend:{
-                position:'top'
+            // LINE CHART
+            const trendElement = document.querySelector("#trendChart");
+
+            if (trendElement) {
+
+                window.trendChartObj = new ApexCharts(trendElement, {
+
+                    chart: {
+                        type: 'line',
+                        height: 350,
+                        toolbar: {
+                            show: false
+                        }
+                    },
+
+                    series: [{
+                            name: 'Tasks',
+                            data: @json($monthlyTasks)
+                        },
+                        {
+                            name: 'Completed',
+                            data: @json($monthlyCompleted)
+                        }
+                    ],
+
+                    xaxis: {
+                        categories: @json($months)
+                    },
+
+                    stroke: {
+                        curve: 'smooth',
+                        width: 4
+                    },
+
+                    colors: ['#0d6efd', '#198754'],
+
+                    markers: {
+                        size: 5
+                    },
+
+                    legend: {
+                        position: 'top'
+                    },
+
+                    grid: {
+                        borderColor: '#eef2f7'
+                    }
+
+                });
+
+                window.trendChartObj.render();
             }
+
         });
-
-        trendChart.render();
-    }
-
-});
-</script>
+    </script>
 @endpush
