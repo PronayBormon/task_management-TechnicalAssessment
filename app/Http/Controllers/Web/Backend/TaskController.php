@@ -9,14 +9,16 @@ use App\Models\Task;
 use App\Services\TaskService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Carbon\Carbon;
 
 class TaskController extends Controller
 {
 
     public function __construct(private TaskService $taskService) {}
+    
     public function index(Request $request)
     {
-        if (request()->ajax()) {
+        if ($request->ajax()) {
             $tasks = Task::latest();
 
             return DataTables::of($tasks)
